@@ -1,4 +1,4 @@
-GET http://localhost:4000/api/cloud/getParentInfoById
+GET http://localhost:4000/api/institute
 Content-Type: application/json
 
 {
