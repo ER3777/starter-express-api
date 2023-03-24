@@ -1,11 +1,5 @@
-# starter-express-api
+# devconnect-preksha
 
-This is the simplest possible nodejs api using express that responds to any request with: 
-```
-Yo!
-```
+step 1: npm install
 
-### Deploy it in 7 seconds: 
-
-[![Deploy to Cyclic](https://deploy.cyclic.app/button.svg)](https://deploy.cyclic.app/)
-
+step 2: npm start

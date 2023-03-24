@@ -1,0 +1,10 @@
+GET http://localhost:4000/api/cloud/getParentInfoById
+Content-Type: application/json
+
+{
+    "Id": "88",
+    "fullName":"Mahendra",
+    "contact":8686889337,
+    "email":"mahendrakumar350@gmail.com",
+    "password":"login123"
+}
