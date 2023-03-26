@@ -6,6 +6,7 @@ const ParentSchema = new Schema({
   firstName: { type: String},
   lastName: { type: String},
   aadhar: { type: String},
+  phone: { type: String },
   pan: { type: String},
   email: { type: String},
   age: { type: Number},
@@ -15,15 +16,10 @@ const ParentSchema = new Schema({
   yoe: { type: Date},
   maritialStatus: { type: String},
   maritialStatus: { type: String},
-  address: {
-    street: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String }
-  },
+  address: {type:String},
   form26AS: { type: Boolean },
   instituteId: { type: String },
-
+  data :{type: Object}
 });
 
 

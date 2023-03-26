@@ -1,4 +1,4 @@
-POST  http://localhost:4000/api/cloud/parentSearchByKyc
+POST  http://localhost:4000/api/cloud/addParent
 Content-Type: application/json
 
 # {
@@ -7,17 +7,17 @@ Content-Type: application/json
 # }
 
 {
-    "CustomerId": 139,
-    "FirstName": "",
+    "CustomerId":0,
+    "FirstName": "mahendra",
     "LastName": "kumar",
     "DOB": "1995-02-17T05:56:59.979Z",
-    "ContactNumber": "8686889334",
-    "LandLineNumber": "8686889334",
+    "ContactNumber": "8686899332",
+    "LandLineNumber": "8686899332",
     "Passport": "null",
-    "PANCard": "DZEPL9657Z",
+    "PANCard": "DZEPL9657D",
     "RationCard": "null",
     "DrivingLicense": "null",
-    "AadarCard": "891905431027",
+    "AadarCard": "172482741550",
     "AdditionalInfo": "null",
     "FatherName": "null",
     "ResidentTypeId": "Own",
@@ -25,7 +25,7 @@ Content-Type: application/json
     "Occupation": "null",
     "StayDuration": 0,
     "VoterId": "null",
-    "Email": "mahendra17878535@gmail.com",
+    "Email": "mahendra11278735@gmail.com",
     "EntityType": "Individual",
     "Salutation": "Ms",
     "MiddleName": "null",
@@ -34,7 +34,7 @@ Content-Type: application/json
     "Caste": "OC",
     "EmploymentType": "other",
     "AnnualIncome": 0,
-    "AlternateMobileNo": 9090888709,
+    "AlternateMobileNo": 9000888709,
     "BankAccountType": "savings",
     "ElectricityAccountNo": "null",
     "GASAccountNo": "null",
@@ -69,6 +69,6 @@ Content-Type: application/json
     "SecondaryStateName": "Telangana",
     "SecondaryLandmark": "null",
     "SecondaryPoliceStation": "null",
-    "AlternateEmail": "mahendrakumar357@gmail.com",
+    "AlternateEmail": "mahendrak24umar357@gmail.com",
     "FamilyBackground": "null"
 }

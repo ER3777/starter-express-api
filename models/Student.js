@@ -11,12 +11,9 @@ const StudentSchema = new Schema({
   instituteId: [{ type: String}],
   parentId: [{ type: String}],
   dateOfBirth: { type: Date },
-  address: {
-    street: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String }
-  },
+  address: {type: String},
+  courseFee: { type: Number},
+  tenure:{type:String},
   enrolledCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
   createdDate: { type: Date, default: Date.now }
 });

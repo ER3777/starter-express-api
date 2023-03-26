@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
 const axios = require("axios");
+const Parent = require("../models/Parent");
 require("dotenv").config();
 
 // allcloud GetCustomerSearch API
@@ -95,8 +96,9 @@ router.post("/addParent", async (req, res) => {
     type: "POST",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/SaveCustomerData`,
   };
+  const ParentData = req.body
   var body = JSON.stringify(req.body);
- 
+  
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -118,7 +120,20 @@ router.post("/addParent", async (req, res) => {
   
   axios.request(config)
   .then((response) => {
-   res.status(200).send(JSON.stringify(response.data));
+    const newParent = new Parent({
+      phone: req.body.ContactNumber,
+      data: ParentData
+      // createdDate: { type: Date, default: Date.now },
+    })
+    newParent
+    .save()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      res.json(error);
+    });
+  //  res.status(200).send(JSON.stringify(response.data));
   })
   .catch((error) => {
    res.status(500).send(error)

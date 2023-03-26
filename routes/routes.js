@@ -3,11 +3,12 @@ const router = express.Router();
 const signUpTemplateCopy = require("../models/SignUpModels");
 const instituteTemplate = require("../models/InstituteModel");
 const Student = require("../models/Student");
+const Parent = require("../models/Parent");
+
 const crypto = require("crypto");
 const axios = require("axios");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
-
 
 // add student api
 
@@ -22,30 +23,25 @@ router.post("/addStudent", (request, response) => {
     instituteId: request.body?.instituteId,
     parentId: request.body?.parentId,
     dateOfBirth: request.body?.dateOfBirth,
-    address: {
-      street: request.body?.street,
-      city: request.body?.city,
-      state: request.body?.state,
-      zip: request.body?.zip,
-    },
+    address: request.body?.address,
     enrolledCourses: request.body?.enrolledCourses,
+    courseFee: request.body?.courseFee,
+    tenure: request.body?.tenure,
     // createdDate: { type: Date, default: Date.now },
-  })
-  Student.AddStudent(newStudent,(response)=>{
-    console.log(response)
-  })
-  
-//   student
-//     .save()
-//     .then((data) => {
-//       response.json(data);
-//     })
-//     .catch((error) => {
-//       response.json(error);
-//     });
+  });
+  // Student.AddStudent(newStudent,(response)=>{
+  //   console.log(response)
+  // })
+
+  newStudent
+    .save()
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.json(error);
+    });
 });
-
-
 
 router.get("/institute", async (req, res) => {
   try {
@@ -57,5 +53,25 @@ router.get("/institute", async (req, res) => {
 });
 
 
+
+router.get("/getStudentInfo", async (req, res) => {
+  try {
+    const query = { phone: req.body?.phone };
+    const result = await Student.findOne(query);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/getParentInfo", async (req, res) => {
+  try {
+    const query = { phone: req.body?.phone };
+    const result = await Parent.findOne(query);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
