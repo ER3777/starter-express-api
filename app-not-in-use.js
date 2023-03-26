@@ -31,11 +31,5 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(express.json())
 app.use(cors())
 app.use('/api',routesUrls);
-app.use('/api/scoreme/',scoreme);
-app.use('/api/cloud/',allcloud);
-app.use(
-  '/api-docs',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
+
 app.listen(4000,()=>console.log("server is up and running"));
