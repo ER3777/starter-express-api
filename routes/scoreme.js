@@ -116,7 +116,6 @@ router.post("/EquifaxResendOTP",async (req,res) => {
   });
 })
 
-
 router.get("/getGeneratedReport",async (req,res) => {
   let data = req.body;
   // let data = JSON.stringify({
@@ -142,8 +141,6 @@ router.get("/getGeneratedReport",async (req,res) => {
     res.status(500).send(error);
   });
 })
-
-
 
 router.post("/panVerify",async (req,res) => {
   let data = req.body

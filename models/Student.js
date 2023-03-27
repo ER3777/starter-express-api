@@ -4,17 +4,18 @@ const Schema = mongoose.Schema;
 const StudentSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
-  instituteStudentId: [{ type: Schema.Types.ObjectId}],
+  instituteStudentId: {type:String},
   email: { type: String },
   phone: { type: String },
   studenttype: { type: String },
-  instituteId: [{ type: String}],
-  parentId: [{ type: String}],
+  instituteId: { type:String },
+  parentId: { type: String},
   dateOfBirth: { type: Date },
   address: {type: String},
   courseFee: { type: Number},
   tenure:{type:String},
-  enrolledCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+  class:{type:String},
+  enrolledCourses:{type:String},
   createdDate: { type: Date, default: Date.now }
 });
 

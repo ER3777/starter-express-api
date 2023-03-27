@@ -27,6 +27,7 @@ router.post("/addStudent", (request, response) => {
     enrolledCourses: request.body?.enrolledCourses,
     courseFee: request.body?.courseFee,
     tenure: request.body?.tenure,
+    class:request.body?.class
     // createdDate: { type: Date, default: Date.now },
   });
   // Student.AddStudent(newStudent,(response)=>{
