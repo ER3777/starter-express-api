@@ -144,4 +144,37 @@ router.get("/getGeneratedReport",async (req,res) => {
 })
 
 
+
+router.post("/panVerify",async (req,res) => {
+  let data = req.body
+  // let data = JSON.stringify({
+  //   "panNumber": "DZEPK9657M",
+  //   "fullName": "MAHENDRA KUMAR THANEERU",
+  //   "status": "INDIVIDUAL",
+  //   "dateOfBirth": "17-FEB-1995"
+  // });
+  
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://sm-kyc.scoreme.in/kyc/external/panverification',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'clientId': process.env.clientId, 
+      'clientSecret': process.env.clientSecret
+    },
+    data : data
+  };
+  
+  axios.request(config)
+  .then((response) => {
+    res.json(response.data)
+  })
+  .catch((error) => {
+    res.json("pan verification error")
+  });
+  
+})
+
+
 module.exports = router;

@@ -19,7 +19,9 @@ const ParentSchema = new Schema({
   address: {type:String},
   form26AS: { type: Boolean },
   instituteId: { type: String },
-  data :{type: Object}
+  data :{type: Object},
+  kyc:{type:Object},
+  validate:{type:Object}
 });
 
 

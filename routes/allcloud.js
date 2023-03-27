@@ -118,22 +118,21 @@ router.post("/addParent", async (req, res) => {
     },data : body
   };
   
-  axios.request(config)
+  await axios.request(config)
   .then((response) => {
     const newParent = new Parent({
       phone: req.body.ContactNumber,
-      data: ParentData
-      // createdDate: { type: Date, default: Date.now },
+      data: response.data
     })
     newParent
     .save()
     .then((data) => {
-      res.json(data);
+      res.status(200).send(data);
     })
     .catch((error) => {
-      res.json(error);
+      res.status(500).send(error)
     });
-  //  res.status(200).send(JSON.stringify(response.data));
+  
   })
   .catch((error) => {
    res.status(500).send(error)
