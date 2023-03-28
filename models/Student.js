@@ -13,7 +13,7 @@ const StudentSchema = new Schema({
   studentId:{type:String},
   dateOfBirth: { type: Date },
   address: {type: String},
-  courseFee: { type: Number},
+  courseFee: { type: String},
   tenure:{type:String},
   class:{type:String},
   status:{type:String},

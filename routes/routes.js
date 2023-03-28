@@ -57,21 +57,22 @@ router.get("/institute", async (req, res) => {
 
 
 
-router.get("/getStudentInfo", async (req, res) => {
+router.get("/getStudentInfo/:phone", async (req, res) => {
   try {
-    const query = { phone: req.body?.phone };
+    const query = { phone: req.params?.phone };
+    console.log(query)
     const result = await Student.findOne(query);
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/getParentInfo", async (req, res) => {
+router.get("/getParentInfo/:phone", async (req, res) => {
   try {
-    const query = { phone: req.body?.phone };
+    const query = { phone: req.params?.phone };
     const result = await Parent.findOne(query);
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
