@@ -21,13 +21,15 @@ router.post("/addStudent", (request, response) => {
     phone: request.body?.phone,
     studenttype: request.body?.studenttype,
     instituteId: request.body?.instituteId,
+    studentId:request.body?.studentId,
     parentId: request.body?.parentId,
     dateOfBirth: request.body?.dateOfBirth,
     address: request.body?.address,
     enrolledCourses: request.body?.enrolledCourses,
     courseFee: request.body?.courseFee,
     tenure: request.body?.tenure,
-    class:request.body?.class
+    class:request.body?.class,
+    status: request.body?.status
     // createdDate: { type: Date, default: Date.now },
   });
   // Student.AddStudent(newStudent,(response)=>{
@@ -47,7 +49,7 @@ router.post("/addStudent", (request, response) => {
 router.get("/institute", async (req, res) => {
   try {
     const institute = await instituteTemplate.find();
-    res.json(institute);
+    res.status(200).json(institute);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

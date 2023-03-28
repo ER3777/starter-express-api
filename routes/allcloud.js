@@ -117,7 +117,7 @@ router.post("/addParent", async (req, res) => {
       'Content-Type': 'application/json'
     },data : body
   };
-  
+ 
   await axios.request(config)
   .then((response) => {
     const newParent = new Parent({
@@ -356,7 +356,6 @@ function GenerateHMACToken(APPId, Seckey, UserToken, Method, URL, input) {
     .digest("base64");
   if (Method == "GET") {
     requestContentBase64String = "";
-    console.log("wrongggggggggg")
   }
 
   var requestdata =

@@ -1,0 +1,85 @@
+POST  http://localhost:4000/api/scoreme/panVerify/:"8349449335"
+Content-Type: application/json
+
+{
+    "panNumber": "DZEPK9657M",
+     "fullName": "MAHENDRA KUMAR THANEERU",
+     "status": "INDIVIDUAL",
+     "dateOfBirth": "17-FEB-1995"
+   }
+   
+# {
+#     "phone":"8309749535"
+# }
+
+# {
+#   "kYCIndividualDoc": "8686889339",
+#   "DocumentIdNo": "DZEPK9657Z"
+# }
+
+# {
+#     "CustomerId":0,
+#     "FirstName": "mahendra",
+#     "LastName": "kumar",
+#     "DOB": "1995-02-17T05:56:59.979Z",
+#     "ContactNumber": "8686899332",
+#     "LandLineNumber": "8686899332",
+#     "Passport": "null",
+#     "PANCard": "DZEPL9657D",
+#     "RationCard": "null",
+#     "DrivingLicense": "null",
+#     "AadarCard": "172482741550",
+#     "AdditionalInfo": "null",
+#     "FatherName": "null",
+#     "ResidentTypeId": "Own",
+#     "OwnerName": "null",
+#     "Occupation": "null",
+#     "StayDuration": 0,
+#     "VoterId": "null",
+#     "Email": "mahendra11278735@gmail.com",
+#     "EntityType": "Individual",
+#     "Salutation": "Ms",
+#     "MiddleName": "null",
+#     "Gender": "Female",
+#     "MaritalStatus": "Single",
+#     "Caste": "OC",
+#     "EmploymentType": "other",
+#     "AnnualIncome": 0,
+#     "AlternateMobileNo": 9000888709,
+#     "BankAccountType": "savings",
+#     "ElectricityAccountNo": "null",
+#     "GASAccountNo": "null",
+#     "DTHAccountNo": "null",
+#     "BankNo": "",
+#     "CentreName": "Default Centre",
+#     "MaskedPANCard": "null",
+#     "MaskedPassport": "null",
+#     "MaskedVoterId": "null",
+#     "MaskedDrivingLicense": "null",
+#     "MaskedRationCard": "null",
+#     "MaskedAadarCard": "null",
+#     "IsAContact": true,
+#     "BankDetailId": 1,
+#     "IFSCCode": "HDFC0002083",
+#     "BranchName": "KAVURI HILLS",
+#     "BankName": "HDFC Bank",
+#     "BankAccountName": "MAHENDRA",
+#     "PrimaryAddressLine1": "123",
+#     "PrimaryArea": "Madhapur",
+#     "PrimaryTown": "Hyderabad",
+#     "PrimaryPostcode": "500081",
+#     "PrimaryStateId": 25,
+#     "PrimaryStateName": "Telangana",
+#     "PrimaryLandmark": "null",
+#     "PrimaryPoliceStation": "null",
+#     "SecondaryAddressLine1": "123",
+#     "SecondaryArea": "Madhapur",
+#     "SecondaryTown": "Hyderabad",
+#     "SecondaryPostcode": "500081",
+#     "SecondaryStateId": 25,
+#     "SecondaryStateName": "Telangana",
+#     "SecondaryLandmark": "null",
+#     "SecondaryPoliceStation": "null",
+#     "AlternateEmail": "mahendrak24umar357@gmail.com",
+#     "FamilyBackground": "null"
+# }

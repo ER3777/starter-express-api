@@ -10,11 +10,13 @@ const StudentSchema = new Schema({
   studenttype: { type: String },
   instituteId: { type:String },
   parentId: { type: String},
+  studentId:{type:String},
   dateOfBirth: { type: Date },
   address: {type: String},
   courseFee: { type: Number},
   tenure:{type:String},
   class:{type:String},
+  status:{type:String},
   enrolledCourses:{type:String},
   createdDate: { type: Date, default: Date.now }
 });

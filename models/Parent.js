@@ -21,7 +21,8 @@ const ParentSchema = new Schema({
   instituteId: { type: String },
   data :{type: Object},
   kyc:{type:Object},
-  validate:{type:Object}
+  validate:{type:Object},
+  report:{type:Object}
 });
 
 

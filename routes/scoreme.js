@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const Parent = require("../models/Parent");
+
 require("dotenv").config();
+
 
 // scoreme equifax
 
@@ -48,7 +51,6 @@ router.post("/EquifaxReport", async (req, res) => {
     
    await axios.request(config)
     .then((response) => {
-      console.log(JSON.stringify(response.data));
       res.status(200).send(response.data);
     })
     .catch((error) => {
@@ -142,8 +144,8 @@ router.get("/getGeneratedReport",async (req,res) => {
   });
 })
 
-router.post("/panVerify",async (req,res) => {
-  let data = req.body
+router.post("/panVerify/:phone",async (req,res) => {
+  let data =req.body
   // let data = JSON.stringify({
   //   "panNumber": "DZEPK9657M",
   //   "fullName": "MAHENDRA KUMAR THANEERU",
@@ -165,13 +167,42 @@ router.post("/panVerify",async (req,res) => {
   
   axios.request(config)
   .then((response) => {
-    res.json(response.data)
+  if (response.data['data'] == null){
+      res.status(500).send(response.data);
+  }
+  if(response.data['responseCode'] == "SRS016" ){
+      const query = { phone: req.body?.phone };
+      Parent.findOneAndUpdate(query, { kyc: response.data },{new:true})
+  .then(updatedDocument => {
+    res.status(200).send(updatedDocument);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+  }
+ 
   })
   .catch((error) => {
-    res.json("pan verification error")
+    res.status(500).send("pan verification error")
   });
   
 })
+
+
+router.post("/panVerif1",async (req,res) => {
+  const query = { phone: req.body?.phone };
+  Parent.findOneAndUpdate(query, { data: {} }, { new: true })
+  .then(updatedDocument => {
+    console.log("hello"+updatedDocument);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+  
+})
+
+
+
 
 
 module.exports = router;

@@ -1,0 +1,9 @@
+POST  http://localhost:4000/api/scoreme/panVerify/:"8349449335"
+Content-Type: application/json
+
+{
+    "panNumber": "DZEPK9657M",
+     "fullName": "MAHENDRA KUMAR THANEERU",
+     "status": "INDIVIDUAL",
+     "dateOfBirth": "17-FEB-1995"
+}
