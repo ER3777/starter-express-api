@@ -3,6 +3,7 @@ const router = express.Router();
 const crypto = require("crypto");
 const axios = require("axios");
 const Parent = require("../models/Parent");
+
 require("dotenv").config();
 
 // allcloud GetCustomerSearch API
@@ -46,8 +47,8 @@ router.get("/getParentInfoByMobileNumber", async (req, res) => {
 });
 
 // allcloud GetCustomerByCIFIdAsync API
-router.get("/getParentInfoById", async (req, res) => {
-  const ParentId = req.body.Id;
+router.get("/getParentInfoById/:Id", async (req, res) => {
+  const ParentId = req.params.Id;
   //const Contact = "8686889337"
   const headers = {
     appid: process.env.APPID,
@@ -85,7 +86,7 @@ router.get("/getParentInfoById", async (req, res) => {
  
 });
 
-// allcloud SaveCustomerData API
+// allcloud SaveCustomerData API --> Error handling and save 
 router.post("/addParent", async (req, res) => {
   const ParentId = req.body.Id;
   const headers = {
@@ -128,6 +129,7 @@ router.post("/addParent", async (req, res) => {
     .save()
     .then((data) => {
       res.status(200).send(data);
+       
     })
     .catch((error) => {
       res.status(500).send(error)
@@ -142,6 +144,7 @@ router.post("/addParent", async (req, res) => {
 
 // allcloud POST /api/Customer/UpdateCustomerData
 router.post("/updateParent", async (req, res) => {
+ 
   const headers = {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
