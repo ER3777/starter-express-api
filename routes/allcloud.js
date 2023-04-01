@@ -132,19 +132,18 @@ router.post("/addParent", async (req, res) => {
        
     })
     .catch((error) => {
+      
       res.status(500).send(error)
     });
-  
   })
   .catch((error) => {
-   res.status(500).send(error)
+   res.send(error)
   });
  
 });
 
 // allcloud POST /api/Customer/UpdateCustomerData
 router.post("/updateParent", async (req, res) => {
- 
   const headers = {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,

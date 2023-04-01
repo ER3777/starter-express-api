@@ -18,12 +18,14 @@
   },
   "homepage": "https://github.com/mahendra350/devconnect-preksha#readme",
   "dependencies": {
+    "@sentry/node": "^7.46.0",
     "axios": "^1.3.4",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^7.0.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "swagger-ui-express": "^4.6.2",
     "uuid": "^9.0.0"
