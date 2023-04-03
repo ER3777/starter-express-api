@@ -17,22 +17,10 @@ const StudentSchema = new Schema({
   tenure:{type:String},
   class:{type:String},
   status:{type:String},
+  applicationNumber:{type:String},
   enrolledCourses:{type:String},
   createdDate: { type: Date, default: Date.now }
 });
 
 const Student = module.exports = mongoose.model('Student', StudentSchema);
 
-module.exports.getUserById = function (id, callback) {
-  const query = { _id: id }
-  Student.findById(query, callback);
-}
-
-module.exports.getStudents = function (callback) {
-  Student.find(callback);
-}
-
-module.exports.AddStudent = function (newStudent,callback) {
-  newStudent.save();
-  console.log(callback)
-}

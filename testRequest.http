@@ -1,0 +1,17 @@
+POST  http://localhost:4000/api/addStudent
+Content-Type: application/json
+
+{
+  "instituteId": "640ac35c03f052e093b6c3eb",
+  "state": "Telangana",
+  "enrolledCourses": "Course 1",
+  "acdemicyear": "2023-2024",
+  "firstName": "Dilip Chandra",
+  "lastName": "Sharma",
+  "instituteStudentId": "123",
+  "studenttype": "New",
+  "class": "12",
+  "courseFee": "8999",
+  "tenure": 6,
+  "phone": "9099989091"
+}

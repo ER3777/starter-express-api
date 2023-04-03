@@ -3,6 +3,7 @@ const router = express.Router();
 const crypto = require("crypto");
 const axios = require("axios");
 const Parent = require("../models/Parent");
+const Application = require("../models/Application");
 
 require("dotenv").config();
 
@@ -14,12 +15,12 @@ router.get("/getParentInfoByMobileNumber", async (req, res) => {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
     secrettoken: process.env.SECRETTOKEN,
-    
+
     type: "GET",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetCustomerSearch?Contact=${Contact}`,
   };
   var body = JSON.stringify(req.body);
- // console.log(body);
+  // console.log(body);
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -40,10 +41,9 @@ router.get("/getParentInfoByMobileNumber", async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
- // console.error(error);
+    // console.error(error);
     res.status(500).send(error);
   }
- 
 });
 
 // allcloud GetCustomerByCIFIdAsync API
@@ -54,12 +54,12 @@ router.get("/getParentInfoById/:Id", async (req, res) => {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
     secrettoken: process.env.SECRETTOKEN,
-    
+
     type: "GET",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetCustomerByCIFIdAsync/${ParentId}`,
   };
   var body = JSON.stringify(req.body);
- // console.log(body);
+  // console.log(body);
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -80,26 +80,24 @@ router.get("/getParentInfoById/:Id", async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
- // console.error(error);
+    // console.error(error);
     res.status(500).send(error);
   }
- 
 });
 
-// allcloud SaveCustomerData API --> Error handling and save 
+// allcloud SaveCustomerData API --> Error handling and save
 router.post("/addParent", async (req, res) => {
   const ParentId = req.body.Id;
   const headers = {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
     secrettoken: process.env.SECRETTOKEN,
-    
+
     type: "POST",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/SaveCustomerData`,
   };
-  const ParentData = req.body
   var body = JSON.stringify(req.body);
-  
+
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -108,38 +106,45 @@ router.post("/addParent", async (req, res) => {
     headers.url,
     body
   );
- 
+
   let config = {
-    method: 'post',
+    method: "post",
     maxBodyLength: Infinity,
-    url: 'https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/SaveCustomerData',
-    headers: { 
-      'Authorization': authToken,
-      'Content-Type': 'application/json'
-    },data : body
+    url: "https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/SaveCustomerData",
+    headers: {
+      Authorization: authToken,
+      "Content-Type": "application/json",
+    },
+    data: body,
   };
- 
-  await axios.request(config)
-  .then((response) => {
-    const newParent = new Parent({
-      phone: req.body.ContactNumber,
-      data: response.data
-    })
-    newParent
-    .save()
-    .then((data) => {
-      res.status(200).send(data);
-       
+  axios
+    .request(config)
+    .then((res) => {
+      const newParent = new Parent({
+        phone: req.body.ContactNumber,
+        data: res.data,
+      });
+      newParent
+        .save()
+        .then((data) => {
+        //  console.log(data);
+         // res.status(200).send(data);
+         const query = { phone: req.body?.phone };
+         Application.findOneAndUpdate(query, { ParentId: data._id }, { new: true })
+           .then((updatedDocument) => {
+             res.status(200).send(data);
+           })
+           .catch((err) => {
+             res.status(402).send("Error in application process");
+           });
+        })
+        .catch((error) => {
+          res.status(500).send(error);
+        });
     })
     .catch((error) => {
-      
-      res.status(500).send(error)
+      res.status(500).send(error);
     });
-  })
-  .catch((error) => {
-   res.send(error)
-  });
- 
 });
 
 // allcloud POST /api/Customer/UpdateCustomerData
@@ -152,7 +157,7 @@ router.post("/updateParent", async (req, res) => {
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/UpdateCustomerData`,
   };
   var body = JSON.stringify(req.body);
- // console.log(body);
+  // console.log(body);
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -168,7 +173,8 @@ router.post("/updateParent", async (req, res) => {
       headers: {
         Authorization: authToken,
         "Content-Type": "application/json",
-      } ,data : body
+      },
+      data: body,
     });
     res.json(response.data);
   } catch (error) {
@@ -177,7 +183,7 @@ router.post("/updateParent", async (req, res) => {
 });
 
 // allcloud DeleteCustomer API
-router.delete("/deleteParent",async (req,res) => {
+router.delete("/deleteParent", async (req, res) => {
   const headers = {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
@@ -186,7 +192,7 @@ router.delete("/deleteParent",async (req,res) => {
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/DeleteCustomer`,
   };
   var body = JSON.stringify(req.body);
- 
+
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -195,29 +201,31 @@ router.delete("/deleteParent",async (req,res) => {
     headers.url,
     body
   );
- 
-  let config = {
-    method: 'delete',
-    maxBodyLength: Infinity,
-    url: 'https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/DeleteCustomer',
-    headers: { 
-      'Authorization': authToken,
-      'Content-Type': 'application/json'
-    },data : body
-  };
-  
-  axios.request(config)
-  .then((response) => {
-   res.status(200).send(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-   res.status(500).send(error)
-  });
-})
 
-// allcloud CustomerSearchByKYCDetails API 
+  let config = {
+    method: "delete",
+    maxBodyLength: Infinity,
+    url: "https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/DeleteCustomer",
+    headers: {
+      Authorization: authToken,
+      "Content-Type": "application/json",
+    },
+    data: body,
+  };
+
+  axios
+    .request(config)
+    .then((response) => {
+      res.status(200).send(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+// allcloud CustomerSearchByKYCDetails API
 // server RESPONSE ERROR
-router.post("/parentSearchByKyc",async (req,res) => {
+router.post("/parentSearchByKyc", async (req, res) => {
   const headers = {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
@@ -226,7 +234,7 @@ router.post("/parentSearchByKyc",async (req,res) => {
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/CustomerSearchByKYCDetails`,
   };
   var body = JSON.stringify(req.body);
- 
+
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -235,25 +243,27 @@ router.post("/parentSearchByKyc",async (req,res) => {
     headers.url,
     body
   );
- 
+
   let config = {
-    method: 'post',
+    method: "post",
     maxBodyLength: Infinity,
-    url: 'https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/CustomerSearchByKYCDetails',
-    headers: { 
-      'Authorization': authToken,
-      'Content-Type': 'application/json'
-    },data : body
+    url: "https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/CustomerSearchByKYCDetails",
+    headers: {
+      Authorization: authToken,
+      "Content-Type": "application/json",
+    },
+    data: body,
   };
-  
-  axios.request(config)
-  .then((response) => {
-   res.status(200).send(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-   res.status(500).send(error)
-  });
-})
+
+  axios
+    .request(config)
+    .then((response) => {
+      res.status(200).send(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
 
 // POST GetCountryStateInfo API
 router.post("/getStateInfo", async (req, res) => {
@@ -262,12 +272,12 @@ router.post("/getStateInfo", async (req, res) => {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
     secrettoken: process.env.SECRETTOKEN,
-    
+
     type: "POST",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetCountryStateInfo`,
   };
   var body = JSON.stringify(req.body);
- 
+
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -276,25 +286,26 @@ router.post("/getStateInfo", async (req, res) => {
     headers.url,
     body
   );
- 
+
   let config = {
-    method: 'post',
+    method: "post",
     maxBodyLength: Infinity,
-    url: 'https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetCountryStateInfo',
-    headers: { 
-      'Authorization': authToken,
-      'Content-Type': 'application/json'
-    },data : body
+    url: "https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetCountryStateInfo",
+    headers: {
+      Authorization: authToken,
+      "Content-Type": "application/json",
+    },
+    data: body,
   };
-  
-  axios.request(config)
-  .then((response) => {
-   res.status(200).send(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-   res.status(500).send(error)
-  });
- 
+
+  axios
+    .request(config)
+    .then((response) => {
+      res.status(200).send(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 // allcloud GetDistrictTownInfo API
@@ -304,12 +315,12 @@ router.post("/getDistrictTownInfo", async (req, res) => {
     appid: process.env.APPID,
     usertoken: process.env.USERTOKEN,
     secrettoken: process.env.SECRETTOKEN,
-    
+
     type: "POST",
     url: `https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetDistrictTownInfo`,
   };
   var body = JSON.stringify(req.body);
- 
+
   const authToken = await GenerateHMACToken(
     headers.appid,
     headers.secrettoken,
@@ -318,35 +329,34 @@ router.post("/getDistrictTownInfo", async (req, res) => {
     headers.url,
     body
   );
- 
+
   let config = {
-    method: 'post',
+    method: "post",
     maxBodyLength: Infinity,
-    url: 'https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetDistrictTownInfo',
-    headers: { 
-      'Authorization': authToken,
-      'Content-Type': 'application/json'
-    },data : body
+    url: "https://staging.allcloud.in/apiv2prekshaedutech/api/Customer/GetDistrictTownInfo",
+    headers: {
+      Authorization: authToken,
+      "Content-Type": "application/json",
+    },
+    data: body,
   };
-  
-  axios.request(config)
-  .then((response) => {
-   res.status(200).send(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-   res.status(500).send(error)
-  });
- 
+
+  axios
+    .request(config)
+    .then((response) => {
+      res.status(200).send(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
-//Save POST /api/Customer/SaveCorporateCustomerData pending 
+//Save POST /api/Customer/SaveCorporateCustomerData pending
 // line 203 error response
 
-
 function GenerateHMACToken(APPId, Seckey, UserToken, Method, URL, input) {
- 
   var requestUri = encodeURIComponent(URL).toLowerCase();
-  var nonce = randomString();  
+  var nonce = randomString();
   var epochStart = new Date("01-01-" + new Date().getFullYear() + " 00:00:00");
   var utcNow = new Date(new Date().toUTCString());
   var diffTime = utcNow - epochStart;
@@ -368,8 +378,7 @@ function GenerateHMACToken(APPId, Seckey, UserToken, Method, URL, input) {
     nonce +
     requestContentBase64String;
 
-  
-console.log(requestdata)
+  console.log(requestdata);
   var token = crypto
     .createHmac("sha256", Seckey)
     .update(requestdata, "utf8")

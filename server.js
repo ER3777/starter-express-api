@@ -35,8 +35,8 @@ app.use(express.json())
 app.use(cors())
 
 // Write logs to a file instead of the console
-const accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
+// const accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' });
+// app.use(morgan('combined', { stream: accessLogStream }));
 
 // app.use((req, res, next) => {
 //   const auditLog = `${new Date().toISOString()} - ${req.method} ${req.originalUrl}\n`;

@@ -5,6 +5,8 @@ const ApplicationSchema = new Schema({
   applicationId: { type: Schema.Types.ObjectId },
   parentId: { type: Schema.Types.ObjectId },
   studentId:{type: Schema.Types.ObjectId},
+  phone: { type: String },
+  KYC:{type:String},
   status: { type: Object },
   state:{type:Object},
   reason:{type:String},

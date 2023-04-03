@@ -6,42 +6,51 @@ const Student = require("../models/Student");
 const Parent = require("../models/Parent");
 const Application = require("../models/Application");
 
-
 const crypto = require("crypto");
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
+const jwt = require('jsonwebtoken');
+const secretKey = '0ne-preksha-cloud';
+
 // add student api
 
-router.post("/addStudent", (req, res) => {
-  const newStudent = new Student({
-    firstName: res.body?.firstName,
-    lastName: res.body?.lastName,
-    instituteStudentId: res.body?.instituteStudentId,
-    email: res.body?.email,
-    phone: res.body?.phone,
-    studenttype: res.body?.studenttype,
-    instituteId: res.body?.instituteId,
-    studentId:res.body?.studentId,
-    parentId: res.body?.parentId,
-    dateOfBirth: res.body?.dateOfBirth,
-    address: res.body?.address,
-    enrolledCourses: res.body?.enrolledCourses,
-    courseFee: res.body?.courseFee,
-    tenure: res.body?.tenure,
-    class:res.body?.class,
-    status: res.body?.status
+router.post("/addStudent", async (req, res) => {
+   
+  let newStudent = new Student({
+    firstName: req.body?.firstName,
+    lastName: req.body?.lastName,
+    instituteStudentId: req.body?.instituteStudentId,
+    email: req.body?.email,
+    phone: req.body?.phone,
+    studenttype: req.body?.studenttype,
+    instituteId: req.body?.instituteId,
+    studentId:req.body?.studentId,
+    parentId: req.body?.parentId,
+    dateOfBirth: req.body?.dateOfBirth,
+    address: req.body?.address,
+    enrolledCourses: req.body?.enrolledCourses,
+    courseFee: req.body?.courseFee,
+    tenure: req.body?.tenure,
+    class:req.body?.class,
+    status: req.body?.status
     // createdDate: { type: Date, default: Date.now },
   });
-  // Student.AddStudent(newStudent,(response)=>{
-  //   console.log(response)
-  // })
-
-  newStudent
+  await newStudent
     .save()
     .then((data) => {
-      res.status(200).json(data);
+      let newApplication = new Application({
+        studentId:data._id,
+        KYC:"pending",
+      })
+      newApplication.save().then((appData)=>{
+        res.status(200).json(data); 
+           })
+      .catch((error)=>{
+        res.status(500).json(error);
+      })
+    //  res.status(200).json(data);
     })
     .catch((error) => {
       res.status(500).json(error);
@@ -84,6 +93,23 @@ router.get("/applicationStatus/:id", async (req, res) => {
     const query = { _id: req.params?.id };
     const result = await Application.findOne(query);
     res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// login 
+
+router.get("/login/:phone", async (req, res) => {
+  try {
+    const query = { phone: req.params?.phone };
+    const result = await Student.findOne(query);
+    if(result == null){
+      res.status(201).json("Phone number not found");
+    }
+    if(result){
+      res.status(200).json(result);
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
